@@ -1,0 +1,17 @@
+#!/bin/bash -l
+#SBATCH --nodes 1
+#SBATCH --ntasks 1
+#SBATCH --cpus-per-task 1
+#SBATCH --mem=10G
+#SBATCH --time=72:00:00
+#SBATCH --mail-user=sagane.joye@unil.ch
+#SBATCH --error=snakemake.err
+
+conda activate snakemake_2
+module load singularity/3.8.5
+
+cd /work/FAC/FBM/DEE/rwaterho/evofun/sagane/ann_snakemake/CarGra01/workflow_ann
+
+snakemake --profile slurm --use-conda --use-singularity --unlock
+snakemake --profile slurm --use-conda --use-singularity --rerun-incomplete --printshellcmds
+

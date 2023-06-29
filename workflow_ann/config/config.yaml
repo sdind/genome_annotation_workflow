@@ -1,0 +1,9 @@
+#parameters
+
+asm: '/work/FAC/FBM/DEE/rwaterho/evofun/sagane/asm_snakemake/final_test_CarGra/workflow_decontam/results/3_decontam/asm_decontaminated.fasta'
+snakemake_dir_path: '/work/FAC/FBM/DEE/rwaterho/evofun/sagane/ann_snakemake/CarGra01/workflow_ann'
+name: 'fCarGra01'
+RNA_dir: '/work/FAC/FBM/DEE/rwaterho/evofun/sagane/raw_data/Carabus_granulatus/RNAseq'
+adapters_file: "/work/FAC/FBM/DEE/rwaterho/evofun/sagane/packages/Trimmomatic/adapters/TruSeq2-PE.fa"
+busco_phylum: 'arthropoda_odb10'
+
