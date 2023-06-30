@@ -17,7 +17,7 @@ The following parameters have to be customized in the configuration file:
 * `asm`: The path to the genome assembly file.
 * `snakemake_dir_path`: The directory path where the Snakemake workflow files are located.
 * `name`: The short name of your species or assembly run
-* `RNA_dir`: Directory containing raw RNA-seq reads. **Important:** files must ends with _1 and _2 suffix to indicate reads 1 and 2 in the paired-end data.
+* `RNA_dir`: Directory containing raw RNA-seq reads. **Important:** files must ends with _1.fastq.gz and _2.fastq.gz suffix to indicate reads 1 and 2 in the paired-end data and need to be compressed (to be changed in future)
 * `adapters_file`: text file containing the specific sequences of the adapters used for sequencing setup.
 * `busco_phylum`: The BUSCO database identifier for the phylum of the organism being assembled. For example, ‘hymenoptera_odb10’ represents the hymenoptera phylum.
 All the required tools mentioned in the workflow, will be automatically installed via conda using the provided YAML file during the workflow execution.
