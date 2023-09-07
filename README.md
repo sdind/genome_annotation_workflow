@@ -21,6 +21,7 @@ The following parameters have to be customized in the configuration file:
 * `adapters_file`: text file containing the specific sequences of the adapters used for sequencing setup.
 * `busco_phylum`: The BUSCO database identifier for the phylum of the organism being assembled. For example, ‘hymenoptera_odb10’ represents the hymenoptera phylum.
 All the required tools mentioned in the workflow, will be automatically installed via conda using the provided YAML file during the workflow execution.
+
 **Currently, the workflow exclusively supports paired-end RNA-seq reads.
 Plus, there is a need to incorporate an option for stranded/non-stranded RNA-seq reads alignment.
 Please note that this workflow is still a work in progress.**
