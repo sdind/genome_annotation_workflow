@@ -10,6 +10,17 @@ The workflow includes the following steps:
 * **Annotation**: Performs gene prediction using [BRAKER3](https://github.com/Gaius-Augustus/BRAKER).
 * **Annotation evaluation**: Evaluates the gene predictions using [BUSCO](https://busco.ezlab.org).
 
+## Prerequisites
+
+The following programs are required to run the workflow and the listed version were tested. It should be noted that older versions of snakemake are not compatible with newer versions of singularity as is noted here: https://github.com/nextflow-io/nextflow/issues/1659.
+
+conda v 23.7.3
+singularity v 3.7.3
+snakemake v 7.32.3
+
+You will also need to acquire a licence key for Genemark and place this in your home directory with name ~/.gm_key The key file can be obtained from the following location, where the licence should be read and agreed to: http://topaz.gatech.edu/GeneMark/license_download.cgi
+
+
 ## Configuration
 **Cluster Configuration**: This workflow is tailored for our specific SLURM cluster setup. Please adjust the profile settings accordingly.
 **Local Execution**: If you're interested in running this workflow locally, a customised version suitable for local environments is available at [WorkflowHub](https://workflowhub.eu/workflows/569).
