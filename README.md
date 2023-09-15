@@ -11,6 +11,9 @@ The workflow includes the following steps:
 * **Annotation evaluation**: Evaluates the gene predictions using [BUSCO](https://busco.ezlab.org).
 
 ## Configuration
+**Cluster Configuration**: This workflow is tailored for our specific SLURM cluster setup. Please adjust the profile settings accordingly.
+**Local Execution**: If you're interested in running this workflow locally, a customised version suitable for local environments is available at [WorkflowHub](https://workflowhub.eu/workflows/569).
+
 The workflow requires a configuration file (config.yaml) to specify the input and output directories, file paths, and other parameters. Make sure to update the configuration file with your specific paths and settings before running the workflow.
 RNA-seq data: The raw RNA-seq data should be organized in a directory specified in the configuration file.
 The following parameters have to be customized in the configuration file:
@@ -23,7 +26,7 @@ The following parameters have to be customized in the configuration file:
 All the required tools mentioned in the workflow, will be automatically installed via conda using the provided YAML file during the workflow execution.
 
 **Currently, the workflow exclusively supports paired-end RNA-seq reads.
-Plus, there is a need to incorporate an option for stranded/non-stranded RNA-seq reads alignment.
+New changes coming very soon !! The forthcoming update will introduce significant enhancements, including parallelised RNA-seq alignments, automated adapter detection using atropos, and support for single-end reads. 
 Please note that this workflow is still a work in progress.**
 
 ### Directory Structure
