@@ -146,7 +146,7 @@ rule to_bam:
 
 
 
-# I should do like a output function to have proper output file not sheeting as I do
+# output of this rule will be changed in the comming update!! and everything will be parallelised ! 
 
 
 
