@@ -4,14 +4,15 @@
 #SBATCH --cpus-per-task 1
 #SBATCH --mem=10G
 #SBATCH --time=72:00:00
-#SBATCH --mail-user=sagane.joye@unil.ch
+#SBATCH --mail-user=XXXX@unil.ch
 #SBATCH --error=snakemake.err
 
-conda activate snakemake_2
-module load singularity/3.8.5
+conda activate snakemake
+module load singularity
 
-cd /work/FAC/FBM/DEE/rwaterho/evofun/sagane/ann_snakemake/CarGra01/workflow_ann
+cd ann_snakemake/CarGra01/workflow_ann
 
 snakemake --profile slurm --use-conda --use-singularity --unlock
 snakemake --profile slurm --use-conda --use-singularity --rerun-incomplete --printshellcmds
 
+## replace your profile !
