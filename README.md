@@ -36,11 +36,12 @@ Please note that this workflow is still a work in progress.**
 ├── logs        # Log files for each step
 ├── results      # Directory containing output files for each step
 ├── README.md     # This README file
-└── workflow      # Output directory (generated during workflow execution)
+└── workflow      # Workflow Directory 
   ├── Snakefile   # Global Snakemake file
   ├── envs      # Environment YAML files for required tools
   ├── rules     # Snakemake rules for each step of the workflow
-    ├── Snakefile_1.smk  # Snakemake file for preprocessing and quality assessment steps
-    ├── Snakefile_2.smk  # Snakemake file for genome assembly and evaluation steps
+    ├── 1_MaskRepeat.smk  # Snakemake file for identifying and masking repeats in the genome
+    ├── 2_alignRNA.smk  # Snakemake file to trim and map reads to the input genome
+    ├── 3_braker.smk  # Snakemake file to predict protein coding gene using braker3
   └── scripts    # Custom scripts (if any)
 ```
