@@ -179,7 +179,7 @@ rule mask:
         asm = config['asm']
     output:
         out_mask = directory(os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker')),
-        asm_masked = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker/asm_decontaminated.fasta.masked')
+        asm_masked = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker/', os.path.basename(config['asm'])) + '.masked'
     log:
         os.path.join(config['snakemake_dir_path'], 'logs/1_MaskRepeat/RepeatMasker/RepeatMasker.log')
     conda:
