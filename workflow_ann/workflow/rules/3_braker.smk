@@ -2,7 +2,7 @@
 
 rule braker:
     input: 
-        asm_masked = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker/asm_decontaminated.fasta.masked'),
+        asm_masked = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker/', os.path.basename(config['asm'])) + '.masked',
         aln_sam = os.path.join(config['snakemake_dir_path'],"results/2_braker/align_RNA/hisat2/test.txt") # to replace by proper output
     output:
         os.path.join(config['snakemake_dir_path'],"results/2_braker/out_braker/braker/braker.aa") 
