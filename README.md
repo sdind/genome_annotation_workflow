@@ -27,7 +27,7 @@ You will also need to acquire a licence key for Genemark and place this in your 
 ### Required Input data
 * Reference genome in fasta format
 * RNAseq data in fastq format
-* protein database in fasta format
+* Protein database in fasta format
 
 <br/>
 
@@ -41,7 +41,7 @@ The following parameters have to be customized in the configuration file:
 * `snakemake_dir_path`: The directory path where the Snakemake workflow files are located.
 * `name`: The short name of your species or assembly run
 * `busco_phylum`: The BUSCO database identifier for the phylum of the organism being assembled. For example, ‘hymenoptera_odb10’ represents the hymenoptera phylum.
-* `prot`: protein fasta sequences in zipped fasta format (e.g from [Swiss-Prot](https://www.uniprot.org/help/downloads)) or [OrthoDB](https://bioinf.uni-greifswald.de/bioinf/partitioned_odb11/).
+* `prot`: protein fasta sequences in zipped fasta format (e.g from [Swiss-Prot](https://www.uniprot.org/help/downloads) or [OrthoDB](https://bioinf.uni-greifswald.de/bioinf/partitioned_odb11/)).
 * `samples`: Contains details about the RNA-seq samples including type and paths to the fastq files.
    - Subkeys:
      - `Sample Name` (e.g., `17_L4_001`):
