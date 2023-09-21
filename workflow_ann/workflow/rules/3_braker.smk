@@ -12,7 +12,7 @@ rule braker:
     log:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/out_braker/out_braker.log')
     params:
-        protDB = os.path.join(config['snakemake_dir_path'], 'workflow/files/proteins.fasta'),
+        protDB = config["prot"],
         out_dir = directory(os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker")),
         runtime = '40:00:00'
     singularity:

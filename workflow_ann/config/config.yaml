@@ -4,6 +4,7 @@ asm: '/path/to/assembly.fa'
 snakemake_dir_path: '/path/to/workflow_ann'
 name: 'fCarInt_v1'
 busco_phylum: 'arthropoda_odb10'
+prot: '/path/to/proteins.fasta'
 samples:
   17_L4_001:
     type: 'paired-end'
