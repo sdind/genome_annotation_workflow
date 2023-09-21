@@ -2,7 +2,7 @@
 #SBATCH --nodes 1
 #SBATCH --ntasks 1
 #SBATCH --cpus-per-task 1
-#SBATCH --mem=10G
+#SBATCH --mem=1G
 #SBATCH --time=72:00:00
 #SBATCH --mail-user=XXXX@unil.ch
 #SBATCH --error=snakemake.err
@@ -10,9 +10,7 @@
 conda activate snakemake
 module load singularity
 
-cd ann_snakemake/CarGra01/workflow_ann
-
 snakemake --profile slurm --use-conda --use-singularity --unlock
 snakemake --profile slurm --use-conda --use-singularity --rerun-incomplete --printshellcmds
 
-## replace your profile !
+## change your profile !
