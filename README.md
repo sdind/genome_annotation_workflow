@@ -8,8 +8,8 @@ The workflow includes the following steps:
 * **RNA-Seq Reads QC**: Performs quality checks on RNA-seq data before and after trimming using [FastQC](https://github.com/s-andrews/FastQC).A single report is provided using [multiQC](https://github.com/ewels/MultiQC).
 * **Parallelized RNA-Seq Alignment**: Utilizing [HISAT2](http://daehwankimlab.github.io/hisat2/), trimmed RNA-seq read alignments to the genome assembly are executed in parallel, optimizing performance.
 * **Mapping Statistics Analysis**: Generate detailed mapping statistics, qualitative alignment analysis using [samtools](https://github.com/samtools/samtools) and [qualimap](http://qualimap.conesalab.org/).
-* **Annotation**: Performs gene prediction using [BRAKER3](https://github.com/Gaius-Augustus/BRAKER) integrating both RNA-seq and protein evidence.
-* **Annotation evaluation**: Evaluates the gene predictions using [BUSCO](https://busco.ezlab.org).
+* **Annotation**: Use the mapped RNAseq reads and the uniprot sequences to create hints for gene prediction using [BRAKER3](https://github.com/Gaius-Augustus/BRAKER) on the masked genome
+* **Annotation evaluation**: Run [BUSCO](https://busco.ezlab.org) to evaluate the completeness of the annotation produced.
 
 <br/>
 
@@ -24,6 +24,12 @@ The following programs are required to run the workflow and the listed version w
 You will also need to acquire a licence key for Genemark and place this in your home directory with name ~/.gm_key The key file can be obtained from the following location, where the licence should be read and agreed to: http://topaz.gatech.edu/GeneMark/license_download.cgi
 
 <br/>
+
+### Required Input data
+* Reference genome in fasta format
+* RNAseq data in fastq format
+* uniprot fasta sequences in zipped fasta format
+
 
 ## Configuration
 **Cluster Configuration**: This workflow is tailored for our specific SLURM cluster setup. Please adjust the profile settings accordingly.
@@ -50,7 +56,7 @@ The following parameters have to be customized in the configuration file:
          R2: '/path/to/sample1.fastq_2.gz'
      ```
 
-**Important**: RNA-seq files must ends with _1.fastq.gz and _2.fastq.gz suffix to indicate reads 1 and 2 in the paired-end data and need to be compressed (to be changed in future). 
+**Important**: RNA-seq files must ends with _1.fastq.gz and _2.fastq.gz suffix to indicate reads 1 and 2 in the paired-end data and need to be compressed (to be changed in future).
 
 All the required tools mentioned in the workflow, will be automatically installed via conda using the provided YAML file during the workflow execution.
 
