@@ -23,13 +23,13 @@ The following programs are required to run the workflow and the listed version w
 
 You will also need to acquire a licence key for Genemark and place this in your home directory with name ~/.gm_key The key file can be obtained from the following location, where the licence should be read and agreed to: http://topaz.gatech.edu/GeneMark/license_download.cgi
 
-<br/>
 
 ### Required Input data
 * Reference genome in fasta format
 * RNAseq data in fastq format
 * uniprot fasta sequences in zipped fasta format
 
+<br/>
 
 ## Configuration
 **Cluster Configuration**: This workflow is tailored for our specific SLURM cluster setup. Please adjust the profile settings accordingly.
