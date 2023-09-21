@@ -1,8 +1,14 @@
 #parameters
-asm: 'workflow_decontam/results/3_decontam/asm_decontaminated.fasta'
-snakemake_dir_path: 'ann_snakemake/CarGra01/workflow_ann'
-name: 'fCarGra01'
-RNA_dir: 'raw_data/Carabus_granulatus/RNAseq'
-adapters_file: "Trimmomatic/adapters/TruSeq2-PE.fa"
-busco_phylum: 'arthropoda_odb10'
 
+asm: '/work/FAC/FBM/DEE/mrobinso/moult/sagane/old/assembly/assembly/fCarInt01/hifiasm/hifiasm_purgel2_purgedups/yahs_with_fCarInt_64008/output_yahs/yahs.out_scaffolds_final.fa'
+snakemake_dir_path: '/work/FAC/FBM/DEE/mrobinso/moult/sagane/genome/ann_snakemake/CarInt01_v1/workflow_ann'
+name: 'fCarInt_v1'
+busco_phylum: 'arthropoda_odb10'
+samples:
+  17_L4_001:
+    type: 'paired-end'
+    R1: '/work/FAC/FBM/DEE/mrobinso/moult/sagane/data/Carabus_intricatu/RNAseq/17_L4_001_1.fastq.gz'
+    R2: '/work/FAC/FBM/DEE/mrobinso/moult/sagane/data/Carabus_intricatu/RNAseq/17_L4_001_2.fastq.gz'
+  18_L4_001:
+    type: 'single-end'
+    R1: '/work/FAC/FBM/DEE/mrobinso/moult/sagane/data/Carabus_intricatu/RNAseq/17_L4_001_1.fastq.gz'

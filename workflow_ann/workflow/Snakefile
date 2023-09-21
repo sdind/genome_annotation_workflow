@@ -7,7 +7,7 @@ include: 'rules/3_braker.smk'
 
 rule all:
     input:
-        directory(os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker')),
-        directory(os.path.join(config['snakemake_dir_path'],"results/2_braker/align_RNA/out_fastQC")),
-        directory(os.path.join(config['snakemake_dir_path'],"results/2_braker/align_RNA/out_fastQC_trimmed")),
-        directory(os.path.join(config['snakemake_dir_path'], 'results/2_braker/braker_busco'))
+        directory(os.path.join(config['snakemake_dir_path'], 'results/2_braker/braker_busco')),
+        os.path.join(config['snakemake_dir_path'], "results/2_braker/QC_RNA/multiqc_report.html"),
+        expand(os.path.join(config['snakemake_dir_path'], 'results/2_braker/align_RNA/hisat2/mapping_stats_samtools/{sample}_mapping_stats_samtools.txt'), sample=config['samples'].keys()),
+        expand(os.path.join(config['snakemake_dir_path'], 'results/2_braker/align_RNA/hisat2/mapping_stats_qualimap_bamqc/{sample}_mapping_stats_qualimap_bamqc.pdf'), sample=config['samples'].keys())

@@ -1,11 +1,11 @@
 
-
 rule braker:
-    input: 
+    # Uses braker3 to predict protein-coding genes annotation using previouly align RNA-seq and curated protein data 
+    input:
         asm_masked = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker/', os.path.basename(config['asm'])) + '.masked',
-        aln_sam = os.path.join(config['snakemake_dir_path'],"results/2_braker/align_RNA/hisat2/test.txt") # to replace by proper output
+        bams = expand(os.path.join(config['snakemake_dir_path'], "results/2_braker/align_RNA/hisat2/{sample}_accepted_hits.sorted.bam"), sample=config['samples'].keys())
     output:
-        os.path.join(config['snakemake_dir_path'],"results/2_braker/out_braker/braker/braker.aa") 
+        braker_aa = os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker/braker/braker.aa")
     threads: 20
     resources:
         mem_mb = 100000
@@ -13,25 +13,23 @@ rule braker:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/out_braker/out_braker.log')
     params:
         protDB = os.path.join(config['snakemake_dir_path'], 'workflow/files/proteins.fasta'),
-        bams_dir = os.path.join(config['snakemake_dir_path'],"results/2_braker/align_RNA/hisat2"),
-        runtime = '40:00:00',
-        out_dir = directory(os.path.join(config['snakemake_dir_path'],"results/2_braker/out_braker"))
-
+        out_dir = directory(os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker")),
+        runtime = '40:00:00'
     singularity:
         'docker://teambraker/braker3:latest'
     shell:
         """
-        list_aln=(`ls {params.bams_dir}/*.sorted.bam`)
-        mkdir {params.out_dir}
+        bams_comma_sep="$(echo '{input.bams}' | tr ' ' ',')"
+        mkdir -p {params.out_dir}
         cd {params.out_dir}
-        (braker.pl --genome={input.asm_masked} --prot_seq={params.protDB} --bam="${{list_aln[@]}}" --softmasking --threads {threads} --gff3) 2> {log}
+        (braker.pl --genome={input.asm_masked} --prot_seq={params.protDB} --bam="$bams_comma_sep" --softmasking --threads {threads} --gff3) 2> {log}
         """
 
 
-
 rule eval:
+    # Uses Busco5 to evaluate the completness of the predicted annotation
     input: 
-        braker_aa = os.path.join(config['snakemake_dir_path'],"results/2_braker/out_braker/braker/braker.aa")
+        braker_aa = os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker/braker/braker.aa")
     output: 
         outdir = directory(os.path.join(config['snakemake_dir_path'], 'results/2_braker/braker_busco'))
     log:

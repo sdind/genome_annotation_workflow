@@ -1,0 +1,12 @@
+channels:
+ - conda-forge
+ - bioconda
+ - anaconda
+ - defaults
+
+dependencies:
+ - atropos == 1.1.28
+ - bc == 1.07.1
+ - gawk == 5.0.1
+ - python == 3.8.6
+

@@ -1,6 +1,5 @@
 rule RepeatModeler:
-    """Create a Database for RepeatModeler and execute RepeatModeler"""
-
+    #Create a Database for RepeatModeler and execute RepeatModeler
     input:
         asm = config['asm']
     output:
@@ -36,7 +35,7 @@ PROT_NAME, PROT_EXT=os.path.splitext(PROT_FASTA)
 
 
 rule split_uniprot:
-    """Split the UniProt/Swissprot protein database into chunks for transposonPSI"""
+    #Split the UniProt/Swissprot protein database into chunks for transposonPSI
     input: 
         prot = os.path.join(config['snakemake_dir_path'],"workflow/files/uniprot_sprot.fasta.gz")# curated proteins from swissprot/uniprot
     output:
@@ -59,7 +58,7 @@ rule split_uniprot:
         """
 
 rule transposonPSI:
-    """Identify transposons in the UniProt/Swissprot protein dataset"""
+    #Identify transposons in the UniProt/Swissprot protein dataset#
     input:
         chunk = PROT_DIR + "split_result/" + PROT_NAME + "_chunk{nr}.fa"
     output:
@@ -67,7 +66,7 @@ rule transposonPSI:
         topHits = temp(PROT_DIR + "split_result/" + PROT_NAME + "_chunk{nr}.fa.TPSI.topHits")
     params:
         dir = PROT_DIR + "split_result/",
-        runtime = '20:00:00'
+        runtime = '40:00:00'
     conda: "../envs/tePSI.yaml"
     shell:
         """
@@ -90,7 +89,7 @@ rule list_tePSI_hits:
 
 
 rule filter_uniprot_fasta:
-    """Remove transposons from the UniProt/Swissprot protein dataset"""
+    #Remove transposons from the UniProt/Swissprot protein dataset
     input:
         prot = os.path.join(config['snakemake_dir_path'],"workflow/files/uniprot_sprot.fasta.gz"),
         prot_list = PROT_DIR + PROT_NAME + ".TPSI.topHits.accessions.txt"
@@ -111,7 +110,7 @@ rule filter_uniprot_fasta:
 
 
 rule filtered_blast_db:
-    """Generate BLAST database from filtered UniProt/Swissprot protein dataset"""
+    #Generate BLAST database from filtered UniProt/Swissprot protein dataset
     input: 
         prot_filtered = PROT_DIR + PROT_NAME + ".noTEs.fa"
     output:
@@ -127,6 +126,7 @@ rule filtered_blast_db:
         makeblastdb -in {input.prot_filtered} -dbtype prot
         """
 
+
 rule symbolic_links:
     """Create symbolic links to repeat libraries in output directory"""
     input:
@@ -140,7 +140,7 @@ rule symbolic_links:
 
 
 rule blast_repeat_library:
-    """Blastx repeat library to filtered Uniprot/Swissprot database"""
+    #Blastx repeat library to filtered Uniprot/Swissprot database
     input:
         repmo_raw = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/filter_TEprot', config['name']+"-families.fa", config['name']+"-families.fa"), 
         blast_db_idx = rules.filtered_blast_db.output,
@@ -158,7 +158,7 @@ rule blast_repeat_library:
         """
 
 rule protexcluder:
-    """Remove blast hits from repeat library"""
+    #Remove blast hits from repeat library
     input:
         repmo_raw = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/filter_TEprot', config['name']+"-families.fa", config['name']+"-families.fa"),
         blast = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/filter_TEprot', config['name']+"-families.fa", config['name']+"-families.fa.blastx.out")
@@ -173,12 +173,13 @@ rule protexcluder:
         ProtExcluder.pl {input.blast} {input.repmo_raw}
         """
 
+
 rule mask:
+    # soft mask the genome with the raminaing repetitve elements
     input:
         repmo_fil = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/filter_TEprot', config['name']+"-families.fa", config['name']+"-families.fanoProtFinal"),
         asm = config['asm']
     output:
-        out_mask = directory(os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker')),
         asm_masked = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker/', os.path.basename(config['asm'])) + '.masked'
     log:
         os.path.join(config['snakemake_dir_path'], 'logs/1_MaskRepeat/RepeatMasker/RepeatMasker.log')
@@ -188,10 +189,11 @@ rule mask:
     resources:
         mem_mb = 40000
     params:
-        runtime = '30:00:00'
+        runtime = '30:00:00',
+        out_mask = directory(os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker')),
     shell:
         """
-        (RepeatMasker -pa {threads} -gff -xsmall -dir {output.out_mask} -lib {input.repmo_fil} {input.asm}) 2> {log}
+        (RepeatMasker -pa {threads} -gff -xsmall -dir {params.out_mask} -lib {input.repmo_fil} {input.asm}) 2> {log}
         """
 
 

@@ -1,0 +1,9 @@
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - samtools == 1.17
+ - qualimap == 2.2.2d
+ - gnuplot == 5.4.8
+
