@@ -11,6 +11,7 @@ The workflow includes the following steps:
 * **Annotation**: Performs gene prediction using [BRAKER3](https://github.com/Gaius-Augustus/BRAKER) integrating both RNA-seq and protein evidence.
 * **Annotation evaluation**: Evaluates the gene predictions using [BUSCO](https://busco.ezlab.org).
 
+<br/>
 
 ## Prerequisites
 
@@ -22,6 +23,7 @@ The following programs are required to run the workflow and the listed version w
 
 You will also need to acquire a licence key for Genemark and place this in your home directory with name ~/.gm_key The key file can be obtained from the following location, where the licence should be read and agreed to: http://topaz.gatech.edu/GeneMark/license_download.cgi
 
+<br/>
 
 ## Configuration
 **Cluster Configuration**: This workflow is tailored for our specific SLURM cluster setup. Please adjust the profile settings accordingly.
@@ -34,12 +36,12 @@ The following parameters have to be customized in the configuration file:
 * `name`: The short name of your species or assembly run
 * `busco_phylum`: The BUSCO database identifier for the phylum of the organism being assembled. For example, ‘hymenoptera_odb10’ represents the hymenoptera phylum.
 * `samples`: Contains details about the RNA-seq samples including type and paths to the fastq files.
-   - **Subkeys**:
-     - **Sample Name (e.g., `17_L4_001`)**:
-       - **`type`**: Defines the RNA-seq sample as 'paired-end' or 'single-end'.
-       - **`R1`**: Path to the first/fastq file in the pair or the single-end read file.
-       - **`R2`**: Path to the second/fastq file in the pair (only for paired-end).
-   - **Example**:
+   - Subkeys:
+     - `Sample Name` (e.g., `17_L4_001`):
+       - `type`: Defines the RNA-seq sample as 'paired-end' or 'single-end'.
+       - `R1`: Path to the first/fastq file in the pair or the single-end read file.
+       - `R2`: Path to the second/fastq file in the pair (only for paired-end).
+   - Example:
      ```
      samples:
        17_L4_001:
@@ -52,9 +54,7 @@ The following parameters have to be customized in the configuration file:
 
 All the required tools mentioned in the workflow, will be automatically installed via conda using the provided YAML file during the workflow execution.
 
-**Currently, the workflow exclusively supports paired-end RNA-seq reads.
-New changes coming very soon !! The forthcoming update will introduce significant enhancements, including parallelised RNA-seq alignments, automated adapter detection using atropos, and support for single-end reads. 
-Please note that this workflow is still a work in progress.**
+**Please note that this workflow is still a work in progress.**
 
 ### Directory Structure
 ```
