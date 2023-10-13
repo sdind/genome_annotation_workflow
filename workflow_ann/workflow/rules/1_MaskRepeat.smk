@@ -9,12 +9,12 @@ rule RepeatModeler:
         os.path.join(config['snakemake_dir_path'], 'logs/1_MaskRepeat/RepeatModeler/RepeatModeler.log')
     conda:
         '../envs/RepeatModeler.yaml'
-    threads: 20
+    threads: get_threads('RepeatModeler')
     resources:
-        mem_mb = 70000
+        mem_mb = lambda wildcards, attempt: get_mem('RepeatModeler', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('RepeatModeler', attempt)
     params:
         out_db = directory(os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatModeler')),
-        runtime = '30:00:00',
         name = config['name']
     shell:
         """
@@ -64,9 +64,10 @@ rule transposonPSI:
     output:
         allHits = temp(PROT_DIR + "split_result/" + PROT_NAME + "_chunk{nr}.fa.TPSI.allHits"),
         topHits = temp(PROT_DIR + "split_result/" + PROT_NAME + "_chunk{nr}.fa.TPSI.topHits")
+    resources:
+        runtime_s = lambda wildcards, attempt: get_runtime('transposonPSI', attempt)
     params:
-        dir = PROT_DIR + "split_result/",
-        runtime = '40:00:00'
+        dir = PROT_DIR + "split_result/"
     conda: "../envs/tePSI.yaml"
     shell:
         """
@@ -149,7 +150,7 @@ rule blast_repeat_library:
         blast = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/filter_TEprot', config['name']+"-families.fa", config['name']+"-families.fa.blastx.out")
     params:
         dir = os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/filter_TEprot', config['name']+"-families.fa")
-    threads: 8
+    threads: get_threads('blast_repeat_library')
     conda: "../envs/blast.yaml"
     shell:
         """
@@ -185,11 +186,11 @@ rule mask:
         os.path.join(config['snakemake_dir_path'], 'logs/1_MaskRepeat/RepeatMasker/RepeatMasker.log')
     conda:
         '../envs/RepeatMasker.yaml'
-    threads: 20
+    threads: get_threads('mask')
     resources:
-        mem_mb = 40000
+        mem_mb = lambda wildcards, attempt: get_mem('mask', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('mask', attempt)
     params:
-        runtime = '30:00:00',
         out_mask = directory(os.path.join(config['snakemake_dir_path'], 'results/1_MaskRepeat/RepeatMasker')),
     shell:
         """

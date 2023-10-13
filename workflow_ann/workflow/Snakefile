@@ -1,9 +1,8 @@
 configfile: 'config/config.yaml'
-
+include: 'rules/resources.smk'
 include: 'rules/1_MaskRepeat.smk'
 include: 'rules/2_alignRNA.smk'
 include: 'rules/3_braker.smk'
-
 
 rule all:
     input:

@@ -1,15 +1,55 @@
 #parameters
 
-asm: '/path/to/assembly.fa'
-snakemake_dir_path: '/path/to/workflow_ann'
+asm: '/mnt/sda1/snakemake_test/data/yahs.out_scaffolds_final.fa'
+snakemake_dir_path: '/mnt/sda1/snakemake_test/workflow_ann_ressources'
 name: 'fCarInt_v1'
 busco_phylum: 'arthropoda_odb10'
-prot: '/path/to/proteins.fasta'
+prot: '/mnt/sda1/snakemake_test/data/proteins.fasta'
 samples:
   17_L4_001:
     type: 'paired-end'
-    R1: '/path/to/RNAseq/17_L4_001_1.fastq.gz'
-    R2: '/path/to/RNAseq/17_L4_001_2.fastq.gz'
-  18_L4_001:
-    type: 'single-end'
-    R1: '/path/to/RNAseq/18_L4_001_1.fastq.gz'
+    R1: '/mnt/sda1/snakemake_test/data/17_L4_001_1.fastq.gz'
+    R2: '/mnt/sda1/snakemake_test/data/17_L4_001_2.fastq.gz'
+
+
+
+
+################################################################################
+##################################  RESOURCES  #################################
+################################################################################
+
+
+# Simplified resources specification using presets. Threads are always used
+# by Snakemake whenever possible, but 'mem_mb' and 'runtime' are only used
+# when executing Snakemake on a cluster (i.e. using an execution profile) or
+# a cloud environment (e.g. kubernetes..)
+presets:
+    threads:                  ###### Number of threads
+        small: 1              #
+        medium: 8             #
+        large: 20              # 
+        very_large: 40        # 
+    mem_mb:                   ###### Memory in Mb
+        very_small: 500
+        small: 5000           #
+        medium: 50000          #
+        large: 200000          #
+        very_large: 500000    # 
+    runtime:                  ###### Maximum runtime (format: D-HH:MM:SS)
+        short: '0-05:00:00'   #
+        medium: '0-15:00:00'  #
+        long: '2-00:00:00'    # 
+        very_long: '3-00:00:00'
+
+# File describing resources to use for each rule.
+# Only edit if you know what you are doing
+resources_info: config/resources.yaml
+
+# Resources can be manually specified for each rule and will override the
+# resources file specifications.
+#
+# resources:
+#     busco_run:
+#         threads: 32
+#         mem_mb: 32000
+resources:

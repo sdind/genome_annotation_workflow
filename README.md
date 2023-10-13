@@ -32,10 +32,10 @@ You will also need to acquire a licence key for Genemark and place this in your 
 <br/>
 
 ## Configuration
-**Cluster Configuration**: This workflow is tailored for our specific SLURM cluster setup. Please adjust the profile settings accordingly.
-**Local Execution**: If you're interested in running this workflow locally, a customised version suitable for local environments is available at [WorkflowHub](https://workflowhub.eu/workflows/569).
 
-The workflow requires a configuration file (config.yaml) to specify the input and output directories, file paths, and other parameters. Make sure to update the configuration file with your specific paths and settings before running the workflow.
+The workflow can run on both cluster and local environments. Resource requirements are simplified using presets in the resources.yaml file. While Snakemake utilizes threads by default, mem_mb and runtime are used specifically when running on a cluster. 
+Ensure you update the main configuration file (`config.yaml`) with your specific paths and settings before execution, and adjust resource management according to your machine's specifications.
+
 The following parameters have to be customized in the configuration file:
 * `asm`: The path to the genome assembly file.
 * `snakemake_dir_path`: The directory path where the Snakemake workflow files are located.
@@ -66,16 +66,18 @@ All the required tools mentioned in the workflow, will be automatically installe
 ### Directory Structure
 ```
 .
-├── config.yaml    # Configuration file specifying input data and parameters
-├── logs        # Log files for each step
-├── results      # Directory containing output files for each step
-├── README.md     # This README file
-└── workflow      # Workflow Directory 
-  ├── Snakefile   # Global Snakemake file
-  ├── envs      # Environment YAML files for required tools
-  ├── rules     # Snakemake rules for each step of the workflow
-    ├── 1_MaskRepeat.smk  # Snakemake file for identifying and masking repeats in the genome
-    ├── 2_alignRNA.smk  # Snakemake file to trim and map reads to the input genome
-    ├── 3_braker.smk  # Snakemake file to predict protein coding gene using braker3
-  └── scripts    # Custom scripts for the workflows
+├── config
+│   └── config.yaml           # Configuration file specifying input data and parameters
+│   └── resources.yaml        # Resources file specifying computing resources per rule
+├── logs                      # Log files for each step
+├── results                   # Directory containing output files for each step
+├── README.md                 # This README file
+└── workflow                  # Workflow Directory 
+    ├── Snakefile             # Global Snakemake file
+    ├── envs                  # Environment YAML files for required tools
+    ├── rules                 # Snakemake rules for each step of the workflow
+        ├── 1_MaskRepeat.smk  # Snakemake file for identifying and masking repeats in the genome
+        ├── 2_alignRNA.smk    # Snakemake file to trim and map reads to the input genome
+        └──  3_braker.smk     # Snakemake file to predict protein coding gene using braker3
+    └── scripts               # Custom scripts for the workflows
 ```

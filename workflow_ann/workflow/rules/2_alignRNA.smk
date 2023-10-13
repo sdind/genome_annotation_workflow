@@ -12,11 +12,10 @@ rule atropos_error:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/align_RNA/trimming/{sample}_error.log')
     conda:
         '../envs/atropos.yaml'
-    threads: 1
+    threads: get_threads('atropos_error')
     resources:
-        mem_mb = 30000
-    params:
-        runtime = '03:00:00'
+        mem_mb = lambda wildcards, attempt: get_mem('atropos_error', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('atropos_error', attempt)
     shell:
         """
         if [ -z "{input.R2}" ]; then
@@ -46,9 +45,10 @@ rule detect_adapters:
         'logs/2_braker/align_RNA/trimming/{sample}_atropos_adapters.log'
     conda:
         '../envs/atropos.yaml'
-    threads: 1
+    threads: get_threads('detect_adapters')
     resources:
-        mem_mb = 30000
+        mem_mb = lambda wildcards, attempt: get_mem('detect_adapters', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('detect_adapters', attempt)
     shell:
         """
         echo "Detecting adapters" > {log}
@@ -79,13 +79,13 @@ rule trim_reads:
         'logs/2_braker/align_RNA/trimming/{sample}_atropos_trimming.log'
     conda:
         '../envs/atropos.yaml'
-    threads: 32
+    threads: get_threads('trim_reads')
     resources:
-        mem_mb = 30000
+        mem_mb = lambda wildcards, attempt: get_mem('trim_reads', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('trim_reads', attempt)
     params:
         adapter_R2 = lambda wildcards: f"results/2_braker/align_RNA/trimming/{wildcards.sample}/{wildcards.sample}_atropos_adapters_2.fasta" if config['samples'][wildcards.sample]['type'] == 'paired-end' else None,
-        trim_R2 = lambda wildcards: f"results/2_braker/align_RNA/trimming/{wildcards.sample}/{wildcards.sample}_atropos_trimmed_2.fastq" if config['samples'][wildcards.sample]['type'] == 'paired-end' else None,
-        runtime = '10:00:00',
+        trim_R2 = lambda wildcards: f"results/2_braker/align_RNA/trimming/{wildcards.sample}/{wildcards.sample}_atropos_trimmed_2.fastq" if config['samples'][wildcards.sample]['type'] == 'paired-end' else None
     shell:
         """
         # Extract the error rate from the file
@@ -114,11 +114,10 @@ rule fastqc:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/QC_RNA/fastqc.log')
     conda:
         '../envs/fastqc.yaml'
-    threads: 20
+    threads: get_threads('fastqc')
     resources:
-        mem_mb = 30000
-    params:
-        runtime = '30:00:00'
+        mem_mb = lambda wildcards, attempt: get_mem('fastqc', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('fastqc', attempt)
     shell:
         """
         mkdir -p {output.outdir}
@@ -144,11 +143,11 @@ rule fastqc_trimmed:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/QC_RNA/fastqc_trimmed.log')
     conda:
         '../envs/fastqc.yaml'
-    threads: 20
+    threads: get_threads('fastqc_trimmed')
     resources:
-        mem_mb = 30000
+        mem_mb = lambda wildcards, attempt: get_mem('fastqc_trimmed', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('fastqc_trimmed', attempt)
     params:
-        runtime = '30:00:00',
         r2 = trimmed_r2_paths
     shell:
         """
@@ -169,11 +168,10 @@ rule multiqc:
         fastqc_trimmed =  directory(os.path.join(config['snakemake_dir_path'], "results/2_braker/QC_RNA/out_fastQC_trimmed")),
     output:
         report = os.path.join(config['snakemake_dir_path'], "results/2_braker/QC_RNA/multiqc_report.html")
-    threads: 1
+    threads: get_threads('multiqc')
     resources:
-        mem_mb = 10000
-    params:
-        runtime = '05:00:00' 
+        mem_mb = lambda wildcards, attempt: get_mem('multiqc', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('multiqc', attempt)
     log:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/QC_RNA/multiqc.log')
     conda:
@@ -194,11 +192,10 @@ rule build_hisat2_index:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/align_RNA/hisat2_index_build.log')
     conda:
         '../envs/hisat.yaml'
-    threads: 1
+    threads: get_threads('build_hisat2_index')
     resources:
-        mem_mb = 10000
-    params:
-        runtime = '03:00:00'
+        mem_mb = lambda wildcards, attempt: get_mem('build_hisat2_index', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('build_hisat2_index', attempt)
     shell:
         """
         mkdir -p {output.index_dir}
@@ -215,13 +212,13 @@ rule hisat2:
     output:
         aln = os.path.join(config['snakemake_dir_path'], "results/2_braker/align_RNA/hisat2/{sample}_accepted_hits.sam"),
         aln_summary = os.path.join(config['snakemake_dir_path'], "results/2_braker/align_RNA/hisat2/{sample}_splicesite.txt")
-    threads: 20
+    threads: get_threads('hisat2')
     log:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/align_RNA/hisat2/{sample}_hisat2.log')
     resources:
-        mem_mb = 400000
+        mem_mb = lambda wildcards, attempt: get_mem('hisat2', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('hisat2', attempt)
     params:
-        runtime = '50:00:00',
         r2_trimmed = lambda wildcards: f"results/2_braker/align_RNA/trimming/{wildcards.sample}/{wildcards.sample}_atropos_trimmed_2.fastq" if config['samples'][wildcards.sample]['type'] == 'paired-end' else None
     conda:
         '../envs/hisat.yaml'
@@ -242,11 +239,10 @@ rule to_bam:
     output:
         aln_bam = os.path.join(config['snakemake_dir_path'], "results/2_braker/align_RNA/hisat2/{sample}_accepted_hits.sorted.bam"),
         bam_index = os.path.join(config['snakemake_dir_path'], "results/2_braker/align_RNA/hisat2/{sample}_accepted_hits.sorted.bam.bai")
-    threads: 4
+    threads: get_threads('to_bam')
     resources:
-        mem_mb = 30000
-    params:
-        runtime = '20:00:00'
+        mem_mb = lambda wildcards, attempt: get_mem('to_bam', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('to_bam', attempt)
     conda:
         '../envs/samtools.yaml'
     shell:
@@ -276,8 +272,9 @@ rule mapping_stats_samtools:
     conda:
         '../envs/QC_stat.yaml'
     resources:
-        mem_mb = 10000
-    threads: 2
+        mem_mb = lambda wildcards, attempt: get_mem('mapping_stats_samtools', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('mapping_stats_samtools', attempt)
+    threads:  get_threads('mapping_stats_samtools')
     shell:
         """
         samtools stats --threads {threads} {input.aln_bam} > {output.samtools_stats} 2>> {log}
@@ -300,8 +297,9 @@ rule mapping_stats_qualimap_bamqc:
     conda:
         '../envs/QC_stat.yaml'
     resources:
-        mem_mb = 10000
-    threads: 4
+        mem_mb = lambda wildcards, attempt: get_mem('mapping_stats_qualimap_bamqc', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('mapping_stats_qualimap_bamqc', attempt)
+    threads: get_threads('mapping_stats_qualimap_bamqc')
     shell:
         """
         qualimap bamqc -bam {input.aln_bam} -hm 3 --collect-overlap-pairs -nr 1000 -nw 500  \

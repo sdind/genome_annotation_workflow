@@ -6,15 +6,15 @@ rule braker:
         bams = expand(os.path.join(config['snakemake_dir_path'], "results/2_braker/align_RNA/hisat2/{sample}_accepted_hits.sorted.bam"), sample=config['samples'].keys())
     output:
         braker_aa = os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker/braker/braker.aa")
-    threads: 20
+    threads: get_threads('braker')
     resources:
-        mem_mb = 100000
+        mem_mb = lambda wildcards, attempt: get_mem('braker', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('braker', attempt)
     log:
         os.path.join(config['snakemake_dir_path'], 'logs/2_braker/out_braker/out_braker.log')
     params:
-        protDB = config["prot"],
-        out_dir = directory(os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker")),
-        runtime = '40:00:00'
+        protDB = config['prot'],
+        out_dir = directory(os.path.join(config['snakemake_dir_path'], "results/2_braker/out_braker"))
     singularity:
         'docker://teambraker/braker3:latest'
     shell:
@@ -36,14 +36,14 @@ rule eval:
         os.path.join(config['snakemake_dir_path'],'logs/2_braker/busco/busco.log')
     conda:
         '../envs/busco5.yaml'
-    threads: 10
+    threads: get_threads('eval')
     resources:
-        mem_mb = 30000
+        mem_mb = lambda wildcards, attempt: get_mem('braker', attempt),
+        runtime_s = lambda wildcards, attempt: get_runtime('braker', attempt)
     params:
         out_path =  os.path.join(config['snakemake_dir_path'], 'results/2_braker'),
         out_name = 'braker_busco',
-        lineage = config['busco_phylum'],
-        runtime = '4:00:00',
+        lineage = config['busco_phylum']
     shell:
         """
         cd {params.out_path}

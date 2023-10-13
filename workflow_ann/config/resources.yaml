@@ -1,0 +1,82 @@
+# Default values applied to rules if no resources specified
+default:
+    threads: medium
+    mem_mb: medium
+    runtime: medium
+
+
+#1_MaskRepeat.smk
+RepeatModeler:
+    threads: very_large
+    mem_mb: large
+    runtime: very_long
+transposonPSI:
+    threads: large
+    mem_mb: large
+    runtime: long
+blast_repeat_library:
+    threads: medium
+    mem_mb: large
+    runtime: long
+mask:
+    threads: large
+    mem_mb: medium
+    runtime: long
+
+
+#alignRNA.smk:
+atropos_error:
+    threads: small
+    mem_mb: small
+    runtime: short
+detect_adapters:
+    threads: small
+    mem_mb: small
+    runtime: medium
+trim_reads:
+    threads: large
+    mem_mb: medium
+    runtime: medium
+fastqc:
+    threads: large
+    mem_mb: medium
+    runtime: long
+fastqc_trimmed:
+    threads: large
+    mem_mb: medium
+    runtime: long
+multiqc:
+    threads: small
+    mem_mb: very_small
+    runtime: short
+build_hisat2_index:
+    threads: small
+    mem_mb: small
+    runtime: short
+hisat2:
+    threads: large
+    mem_mb: very_large
+    runtime: very_long
+to_bam:
+    threads: medium
+    mem_mb: small
+    runtime: medium
+mapping_stats_samtools:
+    threads: small
+    mem_mb: small
+    runtime: short
+mapping_stats_qualimap_bamqc:
+    threads: small
+    mem_mb: small
+    runtime: short
+
+
+#3_braker.smk
+braker:
+    threads: large
+    mem_mb: large
+    runtime: long
+eval:
+    threads: medium
+    mem_mb: medium
+    runtime: medium
