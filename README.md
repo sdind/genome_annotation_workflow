@@ -36,6 +36,8 @@ You will also need to acquire a licence key for Genemark and place this in your 
 The workflow can run on both cluster and local environments. Resource requirements are simplified using presets in the resources.yaml file. While Snakemake utilizes threads by default, mem_mb and runtime are used specifically when running on a cluster. 
 Ensure you update the main configuration file (`config.yaml`) with your specific paths and settings before execution, and adjust resource management according to your machine's specifications.
 
+This workflow can be executed locally using this command: `snakemake --use-conda --use-singularity --cores nbr_available_cores`
+
 The following parameters have to be customized in the configuration file:
 * `asm`: The path to the genome assembly file.
 * `snakemake_dir_path`: The directory path where the Snakemake workflow files are located.
