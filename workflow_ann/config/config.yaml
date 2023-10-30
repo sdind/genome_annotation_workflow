@@ -10,6 +10,10 @@ samples:
     type: 'paired-end'
     R1: '/mnt/sda1/snakemake_test/data/17_L4_001_1.fastq.gz'
     R2: '/mnt/sda1/snakemake_test/data/17_L4_001_2.fastq.gz'
+  SRR13347077:
+    type: 'paired-end'
+    R1: '/mnt/sda1/snakemake_test/data/SRR13347077_1.fastq.gz'
+    R2: '/mnt/sda1/snakemake_test/data/SRR13347077_2.fastq.gz'
 
 
 
