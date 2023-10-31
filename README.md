@@ -55,8 +55,8 @@ The following parameters have to be customized in the configuration file:
      samples:
        17_L4_001:
          type: 'paired-end'
-         R1: '/path/to/sample1.fastq_1.gz'
-         R2: '/path/to/sample1.fastq_2.gz'
+         R1: '/path/to/sample17_1.fastq.gz'
+         R2: '/path/to/sample17_2.fastq.gz'
      ```
 
 **Important**: RNA-seq files must ends with _1.fastq.gz and _2.fastq.gz suffix to indicate reads 1 and 2 in the paired-end data and need to be compressed (to be changed in future).
