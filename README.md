@@ -29,7 +29,7 @@ You will also need to acquire a licence key for Genemark and place this in your 
 * RNAseq data in fastq format
 * Protein database in fasta format
 
-**Note on Fasta Header Formatting**
+**Note on Fasta Header Formatting**:
 Some tools may experience issues with long fasta headers or headers containing spaces or pipes (|). To prevent this, you can simplify your fasta headers using the following command:
 
 ```bash
