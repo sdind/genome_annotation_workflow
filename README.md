@@ -90,3 +90,6 @@ All the required tools mentioned in the workflow, will be automatically installe
         └──  3_braker.smk     # Snakemake file to predict protein coding gene using braker3
     └── scripts               # Custom scripts for the workflows
 ```
+
+### Braker3 Troubleshooting
+If Braker3 encounters issues due to reasons like improperly formatted fasta headers, it’s crucial to clear the output directory (results/2_braker/out_braker) before attempting a rerun. Residual temporary files from a previous run can cause conflicts.
